@@ -1,0 +1,21 @@
+# plot3.R
+classes <- c("factor","factor","numeric","numeric","numeric","numeric","numeric","numeric","numeric")
+data2 <- read.table(file="household_power_consumption.txt",sep=";",na.strings="?",header=TRUE,colClasses=classes,comment.char="")
+data2$datetime <- strptime(paste(data2$Date,data2$Time),"%d/%m/%Y %H:%M:%S")
+
+datetime <- data2[[10]][data2[[1]]=="1/2/2007" | data2[[1]]=="2/2/2007"]
+Sub_metering_1 <- data2[[7]][data2[[1]]=="1/2/2007" | data2[[1]]=="2/2/2007"]
+Sub_metering_2 <- data2[[8]][data2[[1]]=="1/2/2007" | data2[[1]]=="2/2/2007"]
+Sub_metering_3 <- data2[[9]][data2[[1]]=="1/2/2007" | data2[[1]]=="2/2/2007"]
+
+par(mfrow=c(1,1),mar=c(4,4,1,1),cex=1,xpd=FALSE)
+plot(datetime,Sub_metering_1,type="n",xlab="",ylab="Energy sub metering")
+legend(x="top", legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lty=1,col=c("black","red","blue"),box.col="white")
+points(datetime,Sub_metering_1,type="l")
+points(datetime,Sub_metering_2,type="l",col="red")
+points(datetime,Sub_metering_3,type="l",col="blue")
+
+dev.copy(png,file="plot3.png")
+dev.off()
+
+
